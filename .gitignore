@@ -1,0 +1,6 @@
+.vs/
+bin/
+bin-int/
+x64/
+Debug/
+Release/
