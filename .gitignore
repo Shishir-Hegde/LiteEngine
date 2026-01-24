@@ -1,10 +1,11 @@
-// Directories
+# Visual Studio
 .vs/
+*.sln
+*.slnx
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+
+# Build output
 bin/
 bin-int/
-x64/
-Debug/
-Release/
-
-// Files
-".user
