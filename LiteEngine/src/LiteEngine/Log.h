@@ -2,7 +2,7 @@
 
 #include "Core.h"
 #include "spdlog/spdlog.h"
-
+#include "spdlog/fmt/ostr.h"
 namespace LiteEngine
 {
 	class LITEENGINE_API Log
