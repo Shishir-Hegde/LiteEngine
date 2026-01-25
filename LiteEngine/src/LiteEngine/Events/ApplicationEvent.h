@@ -1,7 +1,6 @@
 #pragma once
 
 #include "LiteEngine/Events/Event.h"
-#include <sstream>
 namespace LiteEngine {
 	class WindowResizeEvent : public Event
 	{

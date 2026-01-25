@@ -18,6 +18,8 @@ project "LiteEngine"
 	targetdir ("bin/" ..outputdir .."/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
+	pchheader "hzpch.h"
+	pchsource "LiteEngine/src/LiteEngine/hzpch.cpp"
 	files
 	{
 		"%{prj.name}/src/**.h",
@@ -76,8 +78,9 @@ project "Sandbox"
 	includedirs
 	{
 		"LiteEngine/vendor/spdlog/include",
-		"LiteEngine/src"
+		"LiteEngine/src/LiteEngine"
 	}
+
 
 	links
 	{
