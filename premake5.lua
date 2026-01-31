@@ -9,6 +9,12 @@ workspace "LiteEngine"
 	}
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+
+IncludeDir = {}
+IncludeDir["GLFW"] = "LiteEngine/vendor/GLFW/include"
+
+include "LiteEngine/vendor/GLFW"
+
 project "LiteEngine"
 	location "LiteEngine"
 	kind "SharedLib"
@@ -29,7 +35,15 @@ project "LiteEngine"
 	includedirs
 	{
 		"%{prj.name}/src",
-		"%{prj.name}/vendor/spdlog/include"
+		"%{prj.name}/vendor/spdlog/include",
+		"%{IncludeDir.GLFW}"
+	}
+
+	links
+	{
+		"GLFW",
+		"opengl32.lib",
+		"dwmapi.lib"
 	}
 
 	filter "system:windows"
@@ -44,9 +58,11 @@ project "LiteEngine"
 		}
 
 		postbuildcommands
-		{
-			("{COPYFILE} %{cfg.buildtarget.relpath} ../bin/" .. outputdir.. "/Sandbox")
-		}
+        {
+            ("{MKDIR} ../bin/" .. outputdir .. "/Sandbox"),
+            ("{COPYFILE} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox/%{file.basename}%{file.extension}")
+        }
+
 
 	filter "configurations:Debug"
 		defines "LE_DEBUG"
@@ -78,7 +94,7 @@ project "Sandbox"
 	includedirs
 	{
 		"LiteEngine/vendor/spdlog/include",
-		"LiteEngine/src/LiteEngine"
+		"LiteEngine/src"
 	}
 
 
