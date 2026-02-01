@@ -1,6 +1,6 @@
 #pragma once
 #include "hzpch.h"
-#include "Core.h"
+#include "LiteEngine/Core.h"
 
 namespace LiteEngine {
 	enum class EventType
