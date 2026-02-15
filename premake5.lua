@@ -1,12 +1,12 @@
 workspace "LiteEngine"
-	architecture "x64"
+    architecture "x64"
 
-	configurations
-	{
-		"Debug",
-		"Release",
-		"Dist"
-	}
+    configurations
+    {
+        "Debug",
+        "Release",
+        "Dist"
+    }
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
@@ -16,116 +16,118 @@ IncludeDir["GLFW"] = "LiteEngine/vendor/GLFW/include"
 include "LiteEngine/vendor/GLFW"
 
 project "LiteEngine"
-	location "LiteEngine"
-	kind "SharedLib"
-	language "C++"
-	buildoptions { "/utf-8" }
+    location "LiteEngine"
+    kind "SharedLib"
+    language "C++"
+    buildoptions { "/utf-8" }
 
-	targetdir ("bin/" ..outputdir .."/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+    objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
-	pchheader "hzpch.h"
-	pchsource "LiteEngine/src/LiteEngine/hzpch.cpp"
-	files
-	{
-		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
-	}
+    -- Precompiled headers
+    pchheader "hzpch.h"
+    pchsource "LiteEngine/src/hzpch.cpp"
 
-	includedirs
-	{
-		"%{prj.name}/src",
-		"%{prj.name}/vendor/spdlog/include",
-		"%{IncludeDir.GLFW}"
-	}
+    files
+    {
+        "%{prj.name}/src/**.h",
+        "%{prj.name}/src/**.cpp",
+        "LiteEngine/src/hzpch.cpp" -- explicitly include PCH source
+    }
 
-	links
-	{
-		"GLFW",
-		"opengl32.lib",
-		"dwmapi.lib"
-	}
+    includedirs
+    {
+        "%{prj.name}/src",
+        "%{prj.name}/vendor/spdlog/include",
+        "%{IncludeDir.GLFW}"
+    }
 
-	filter "system:windows"
-		cppdialect "C++17"
-		staticruntime "On"
-		systemversion "latest"
+    links
+    {
+        "GLFW",
+        "opengl32.lib",
+        "dwmapi.lib"
+    }
 
-		defines
-		{
-			"LE_PLATFORM_WINDOWS",
-			"LE_BUILD_DLL"
-		}
+    filter "system:windows"
+        cppdialect "C++17"
+        staticruntime "On"
+        systemversion "latest"
 
-		postbuildcommands
+        defines
+        {
+            "LE_PLATFORM_WINDOWS",
+            "LE_BUILD_DLL"
+        }
+
+        postbuildcommands
         {
             ("{MKDIR} ../bin/" .. outputdir .. "/Sandbox"),
             ("{COPYFILE} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox/%{file.basename}%{file.extension}")
         }
 
+    filter "configurations:Debug"
+        defines "LE_DEBUG"
+        runtime "Debug"
+        symbols "On"
 
-	filter "configurations:Debug"
-		defines "LE_DEBUG"
-		buildoptions "/MDd"
-		symbols "On"
+    filter "configurations:Release"
+        defines "LE_RELEASE"
+        runtime "Release"
+        optimize "On"
 
-	filter "configurations:Release"
-		defines "LE_RELEASE"
-		buildoptions "/MD"
-		symbols "On"
-
-	filter "configurations:Dist"
-		defines "LE_DIST"
-		buildoptions "/MD"
-		symbols "On"
+    filter "configurations:Dist"
+        defines "LE_DIST"
+        runtime "Release"
+        optimize "On"
 
 project "Sandbox"
-	location "Sandbox"
-	kind "ConsoleApp"
-	language "C++"
-	buildoptions { "/utf-8" }
+    location "Sandbox"
+    kind "ConsoleApp"
+    language "C++"
+    buildoptions { "/utf-8" }
 
-	targetdir ("bin/" ..outputdir .."/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+    objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
-	files
-	{
-		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
-	}
+    files
+    {
+        "%{prj.name}/src/**.h",
+        "%{prj.name}/src/**.cpp"
+    }
 
-	includedirs
-	{
-		"LiteEngine/vendor/spdlog/include",
-		"LiteEngine/src"
-	}
+    includedirs
+    {
+        "LiteEngine/vendor/spdlog/include",
+        "LiteEngine/src"
+    }
 
+    links
+    {
+        "LiteEngine"
+    }
 
-	links
-	{
-		"LiteEngine"
-	}
-	filter "system:windows"
-		cppdialect "C++17"
-		staticruntime "On"
-		systemversion "latest"
+    filter "system:windows"
+        cppdialect "C++17"
+        staticruntime "On"
+        systemversion "latest"
 
-		defines
-		{
-			"LE_PLATFORM_WINDOWS",
-		}
+        defines
+        {
+            "LE_PLATFORM_WINDOWS",
+        }
 
-	filter "configurations:Debug"
-		defines "LE_DEBUG"
-		buildoptions "/MDd"
-		symbols "On"
+    filter "configurations:Debug"
+        defines "LE_DEBUG"
+        runtime "Debug"
+        symbols "On"
 
-	filter "configurations:Release"
-		defines "LE_RELEASE"
-		buildoptions "/MD"
-		symbols "On"
+    filter "configurations:Release"
+        defines "LE_RELEASE"
+        runtime "Release"
+        optimize "On"
 
-	filter "configurations:Dist"
-		defines "LE_DIST"
-		buildoptions "/MD"	
-		symbols "On"
+    filter "configurations:Dist"
+        defines "LE_DIST"
+        runtime "Release"
+        optimize "On"
