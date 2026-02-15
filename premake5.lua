@@ -12,8 +12,10 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 IncludeDir = {}
 IncludeDir["GLFW"] = "LiteEngine/vendor/GLFW/include"
+IncludeDir["Glad"] = "LiteEngine/vendor/Glad/include"
 
 include "LiteEngine/vendor/GLFW"
+include "LiteEngine/vendor/Glad"
 
 project "LiteEngine"
     location "LiteEngine"
@@ -39,12 +41,14 @@ project "LiteEngine"
     {
         "%{prj.name}/src",
         "%{prj.name}/vendor/spdlog/include",
-        "%{IncludeDir.GLFW}"
+        "%{IncludeDir.GLFW}",
+        "%{IncludeDir.Glad}"
     }
 
     links
     {
         "GLFW",
+        "Glad",
         "opengl32.lib",
         "dwmapi.lib"
     }
@@ -57,7 +61,8 @@ project "LiteEngine"
         defines
         {
             "LE_PLATFORM_WINDOWS",
-            "LE_BUILD_DLL"
+            "LE_BUILD_DLL",
+            "GLFW_INCLUDE_NONE"
         }
 
         postbuildcommands

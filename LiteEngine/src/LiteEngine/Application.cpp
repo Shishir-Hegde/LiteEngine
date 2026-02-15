@@ -3,7 +3,7 @@
 
 #include "LiteEngine/Log.h"
 
-#include <GLFW/glfw3.h>
+#include <glad/glad.h>
 
 namespace LiteEngine {
 
@@ -13,6 +13,7 @@ namespace LiteEngine {
 	{
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
+
 	}
 
 	Application::~Application()
@@ -34,6 +35,7 @@ namespace LiteEngine {
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
 
+
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); )
 		{
 			(*--it)->OnEvent(e);
@@ -46,7 +48,7 @@ namespace LiteEngine {
 	{
 		while (m_Running)
 		{
-			glClearColor(0, 0, 1, 1);
+			glClearColor(1, 0, 1, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
 
 			for (Layer* layer : m_LayerStack)
