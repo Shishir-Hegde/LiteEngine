@@ -66,20 +66,19 @@ project "LiteEngine"
             ("{COPYFILE} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox/%{file.basename}%{file.extension}")
         }
 
-    filter "configurations:Debug"
-        defines "LE_DEBUG"
-        runtime "Debug"
-        symbols "On"
 
-    filter "configurations:Release"
-        defines "LE_RELEASE"
-        runtime "Release"
-        optimize "On"
+	filter "configurations:Debug"
+		defines "LE_DEBUG"
+		buildoptions "/MDd"
+		symbols "On"
 
-    filter "configurations:Dist"
-        defines "LE_DIST"
-        runtime "Release"
-        optimize "On"
+	filter "configurations:Release"
+		defines "LE_RELEASE"
+		symbols "On"
+
+	filter "configurations:Dist"
+		defines "LE_DIST"
+		symbols "On"
 
 project "Sandbox"
     location "Sandbox"
@@ -117,17 +116,14 @@ project "Sandbox"
             "LE_PLATFORM_WINDOWS",
         }
 
-    filter "configurations:Debug"
-        defines "LE_DEBUG"
-        runtime "Debug"
-        symbols "On"
+	filter "configurations:Debug"
+		defines "LE_DEBUG"
+		symbols "On"
 
-    filter "configurations:Release"
-        defines "LE_RELEASE"
-        runtime "Release"
-        optimize "On"
+	filter "configurations:Release"
+		defines "LE_RELEASE"
+		symbols "On"
 
-    filter "configurations:Dist"
-        defines "LE_DIST"
-        runtime "Release"
-        optimize "On"
+	filter "configurations:Dist"
+		defines "LE_DIST"
+		symbols "On"
