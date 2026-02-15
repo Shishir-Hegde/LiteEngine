@@ -66,14 +66,17 @@ project "LiteEngine"
 
 	filter "configurations:Debug"
 		defines "LE_DEBUG"
+		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "LE_RELEASE"
+		buildoptions "/MD"
 		symbols "On"
 
 	filter "configurations:Dist"
 		defines "LE_DIST"
+		buildoptions "/MD"
 		symbols "On"
 
 project "Sandbox"
@@ -114,12 +117,15 @@ project "Sandbox"
 
 	filter "configurations:Debug"
 		defines "LE_DEBUG"
+		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "LE_RELEASE"
+		buildoptions "/MD"
 		symbols "On"
 
 	filter "configurations:Dist"
 		defines "LE_DIST"
+		buildoptions "/MD"	
 		symbols "On"
