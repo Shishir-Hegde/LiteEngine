@@ -1,6 +1,5 @@
 workspace "LiteEngine"
     architecture "x64"
-
     configurations
     {
         "Debug",
@@ -26,15 +25,13 @@ project "LiteEngine"
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
-    -- Precompiled headers
     pchheader "hzpch.h"
     pchsource "LiteEngine/src/hzpch.cpp"
 
     files
     {
         "%{prj.name}/src/**.h",
-        "%{prj.name}/src/**.cpp",
-        "LiteEngine/src/hzpch.cpp" -- explicitly include PCH source
+        "%{prj.name}/src/**.cpp"
     }
 
     includedirs
@@ -55,35 +52,33 @@ project "LiteEngine"
 
     filter "system:windows"
         cppdialect "C++17"
-        staticruntime "On"
+        staticruntime "Off"
         systemversion "latest"
-
         defines
         {
             "LE_PLATFORM_WINDOWS",
             "LE_BUILD_DLL",
             "GLFW_INCLUDE_NONE"
         }
-
         postbuildcommands
         {
-            ("{MKDIR} ../bin/" .. outputdir .. "/Sandbox"),
-            ("{COPYFILE} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox/%{file.basename}%{file.extension}")
+            ("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
         }
 
+    filter "configurations:Debug"
+        defines "LE_DEBUG"
+        runtime "Debug"
+        symbols "On"
 
-	filter "configurations:Debug"
-		defines "LE_DEBUG"
-		buildoptions "/MDd"
-		symbols "On"
+    filter "configurations:Release"
+        defines "LE_RELEASE"
+        runtime "Release"
+        optimize "On"
 
-	filter "configurations:Release"
-		defines "LE_RELEASE"
-		symbols "On"
-
-	filter "configurations:Dist"
-		defines "LE_DIST"
-		symbols "On"
+    filter "configurations:Dist"
+        defines "LE_DIST"
+        runtime "Release"
+        optimize "On"
 
 project "Sandbox"
     location "Sandbox"
@@ -113,22 +108,24 @@ project "Sandbox"
 
     filter "system:windows"
         cppdialect "C++17"
-        staticruntime "On"
+        staticruntime "Off"
         systemversion "latest"
-
         defines
         {
-            "LE_PLATFORM_WINDOWS",
+            "LE_PLATFORM_WINDOWS"
         }
 
-	filter "configurations:Debug"
-		defines "LE_DEBUG"
-		symbols "On"
+    filter "configurations:Debug"
+        defines "LE_DEBUG"
+        runtime "Debug"
+        symbols "On"
 
-	filter "configurations:Release"
-		defines "LE_RELEASE"
-		symbols "On"
+    filter "configurations:Release"
+        defines "LE_RELEASE"
+        runtime "Release"
+        optimize "On"
 
-	filter "configurations:Dist"
-		defines "LE_DIST"
-		symbols "On"
+    filter "configurations:Dist"
+        defines "LE_DIST"
+        runtime "Release"
+        optimize "On"

@@ -2,6 +2,11 @@
 #include "spdlog/fmt/ostr.h"
 #include "LiteEngine/Events/Event.h"
 #include "LiteEngine/Log.h"
+// Force discrete GPU
+extern "C" {
+	__declspec(dllexport) unsigned long NvOptimusEnablement = 1;
+	__declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
+}
 
 class ExampleLayer : public LiteEngine::Layer
 {

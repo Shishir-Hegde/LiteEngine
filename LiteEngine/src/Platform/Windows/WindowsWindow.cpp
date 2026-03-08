@@ -53,6 +53,8 @@ namespace LiteEngine {
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		LE_CORE_ASSERT(status, "Failed to initialize Glad!");
 		glfwSetWindowUserPointer(m_Window, &m_Data);
+		LE_CORE_INFO("OpenGL Renderer: {0}", (const char*)glGetString(GL_RENDERER));
+		LE_CORE_INFO("OpenGL Version: {0}", (const char*)glGetString(GL_VERSION));
 		SetVSync(true);
 
 		// Set GLFW callbacks
