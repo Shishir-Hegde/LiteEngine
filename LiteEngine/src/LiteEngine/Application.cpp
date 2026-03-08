@@ -49,7 +49,7 @@ namespace LiteEngine {
 	{
 		while (m_Running)
 		{
-			glClearColor(0, 0, 1, 1);
+			glClearColor(0.25, 0.56, 0.8, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
 
 			for (Layer* layer : m_LayerStack)
