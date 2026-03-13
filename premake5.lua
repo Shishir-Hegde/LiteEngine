@@ -13,10 +13,12 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "LiteEngine/vendor/GLFW/include"
 IncludeDir["Glad"] = "LiteEngine/vendor/Glad/include"
 IncludeDir["ImGui"] = "LiteEngine/vendor/imgui"
+IncludeDir["glm"] = "LiteEngine/vendor/glm"
 
 include "LiteEngine/vendor/GLFW"
 include "LiteEngine/vendor/Glad"
 include "LiteEngine/vendor/imgui"
+
 
 project "LiteEngine"
     location "LiteEngine"
@@ -33,7 +35,9 @@ project "LiteEngine"
     files
     {
         "%{prj.name}/src/**.h",
-        "%{prj.name}/src/**.cpp"
+        "%{prj.name}/src/**.cpp",
+        "%{prj.name}/vendor/glm/glm/**.hpp",
+		"%{prj.name}/vendor/glm/glm/**.inl"
     }
 
     includedirs
@@ -42,7 +46,8 @@ project "LiteEngine"
         "%{prj.name}/vendor/spdlog/include",
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
-        "%{IncludeDir.ImGui}"
+        "%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}"
     }
 
     links
@@ -96,13 +101,14 @@ project "Sandbox"
     files
     {
         "%{prj.name}/src/**.h",
-        "%{prj.name}/src/**.cpp"
+        "%{prj.name}/src/**.cpp",
     }
 
     includedirs
     {
         "LiteEngine/vendor/spdlog/include",
-        "LiteEngine/src"
+        "LiteEngine/src",
+        "%{IncludeDir.glm}"
     }
 
     links
