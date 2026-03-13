@@ -5,7 +5,13 @@
 #include "LiteEngine/Application.h"
 #include "LiteEngine/Layer.h"
 #include "LiteEngine/Log.h"
-#include "LiteEngine/ImGui/ImGuiLayer.h"
-// Entry point
 
+#include "LiteEngine/Input.h"
+#include "LiteEngine/KeyCodes.h"
+#include "LiteEngine/MouseButtonCodes.h"
+
+#include "LiteEngine/ImGui/ImGuiLayer.h"
+
+// Entry point
 #include "LiteEngine/EntryPoint.h"
+//-------------------

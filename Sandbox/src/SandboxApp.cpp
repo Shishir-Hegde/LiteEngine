@@ -13,10 +13,14 @@ class ExampleLayer : public LiteEngine::Layer {
 public:
   ExampleLayer() : Layer("Example") {}
 
-  void OnUpdate() override { LE_INFO("ExampleLayer::Update"); }
+  void OnUpdate() override 
+  { 
+	  LE_INFO("ExampleLayer::Update");
+  }
 
-  void OnEvent(LiteEngine::Event &event) override {
-    LE_TRACE("{0}", event.ToString());
+  void OnEvent(LiteEngine::Event &event) override 
+  {
+	  LE_TRACE("{0}", event.ToString());
   }
 };
 
