@@ -4,7 +4,7 @@
 #include "LiteEngine/Log.h"
 
 #include <glad/glad.h>
-
+#include "imgui.h"
 #include "Input.h"
 
 namespace LiteEngine {
@@ -20,6 +20,9 @@ namespace LiteEngine {
 
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
+
+		m_ImGuiLayer = new ImGuiLayer();
+		PushOverlay(m_ImGuiLayer);
 
 	}
 
@@ -63,6 +66,11 @@ namespace LiteEngine {
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
 
+			m_ImGuiLayer->Begin();
+			for (Layer* layer : m_LayerStack)
+				layer->OnImGuiRender();
+			m_ImGuiLayer->End();
+
 			m_Window->OnUpdate();
 		}
 	}
@@ -71,6 +79,10 @@ namespace LiteEngine {
 	{
 		m_Running = false;
 		return true;
+	}
+	ImGuiContext* Application::GetImGuiContext()        // ADD THIS
+	{
+		return ImGui::GetCurrentContext();
 	}
 
 }

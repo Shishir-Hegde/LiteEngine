@@ -7,6 +7,8 @@
 #include "LiteEngine/Events/Event.h"
 #include "LiteEngine/Events/ApplicationEvent.h"
 
+#include "LiteEngine/ImGui/ImGuiLayer.h"
+struct ImGuiContext;
 namespace LiteEngine {
 
 	class LITEENGINE_API Application
@@ -25,10 +27,12 @@ namespace LiteEngine {
 		inline Window& GetWindow() { return *m_Window; }
 
 		inline static Application& Get() { return *s_Instance; }
+		ImGuiContext* GetImGuiContext();
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
 
 		std::unique_ptr<Window> m_Window;
+		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
 	private:

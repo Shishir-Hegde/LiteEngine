@@ -24,6 +24,7 @@ project "LiteEngine"
     location "LiteEngine"
     kind "SharedLib"
     language "C++"
+	staticruntime "off"
     buildoptions { "/utf-8" }
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
@@ -61,7 +62,6 @@ project "LiteEngine"
 
     filter "system:windows"
         cppdialect "C++17"
-        staticruntime "Off"
         systemversion "latest"
         defines
         {
@@ -93,6 +93,7 @@ project "Sandbox"
     location "Sandbox"
     kind "ConsoleApp"
     language "C++"
+	staticruntime "off"
     buildoptions { "/utf-8" }
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
@@ -108,17 +109,18 @@ project "Sandbox"
     {
         "LiteEngine/vendor/spdlog/include",
         "LiteEngine/src",
+		"LiteEngine/vendor",
         "%{IncludeDir.glm}"
     }
 
     links
     {
-        "LiteEngine"
+        "LiteEngine",
+		"ImGui"
     }
 
     filter "system:windows"
         cppdialect "C++17"
-        staticruntime "Off"
         systemversion "latest"
         defines
         {

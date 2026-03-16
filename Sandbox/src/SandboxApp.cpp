@@ -1,4 +1,5 @@
 #include "LiteEngine.h"
+#include "imgui/imgui.h"
 #include "LiteEngine/Events/Event.h"
 #include "LiteEngine/Log.h"
 #include "spdlog/fmt/ostr.h"
@@ -13,9 +14,20 @@ class ExampleLayer : public LiteEngine::Layer {
 public:
   ExampleLayer() : Layer("Example") {}
 
+  void OnAttach() override
+  {
+	  ImGui::SetCurrentContext(LiteEngine::Application::Get().GetImGuiContext());
+  }
+
   void OnUpdate() override 
   { 
 	  LE_INFO("ExampleLayer::Update");
+  }
+  virtual void OnImGuiRender() override
+  {
+	  ImGui::Begin("Test");
+	  ImGui::Text("Hello World");
+	  ImGui::End();
   }
 
   void OnEvent(LiteEngine::Event &event) override 
@@ -29,7 +41,7 @@ public:
   Sandbox() 
   {
       PushLayer(new ExampleLayer()); 
-	  PushOverlay(new LiteEngine::ImGuiLayer());
+	  
   }
 
   ~Sandbox() {}
