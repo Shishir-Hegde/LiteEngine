@@ -53,7 +53,6 @@ namespace LiteEngine {
 		// Setup Platform/Renderer bindings
 		ImGui_ImplGlfw_InitForOpenGL(window, true);
 		ImGui_ImplOpenGL3_Init("#version 410");
-
 	}
 
 	void ImGuiLayer::OnDetach()
@@ -65,20 +64,20 @@ namespace LiteEngine {
 
 	void ImGuiLayer::Begin()
 	{
-		
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
-
 	}
 
 	void ImGuiLayer::End()
 	{
 		ImGuiIO& io = ImGui::GetIO();
-	
+
 		Application& app = Application::Get();
-		io.DisplaySize = ImVec2(app.GetWindow().GetWidth(), app.GetWindow().GetHeight());
-	
+		// (float) casts fix C4244 warning: GetWidth/GetHeight return uint32_t,
+		// ImVec2 constructor takes float
+		io.DisplaySize = ImVec2((float)app.GetWindow().GetWidth(), (float)app.GetWindow().GetHeight());
+
 		// Rendering
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

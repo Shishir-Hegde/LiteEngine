@@ -1,7 +1,8 @@
 project "GLFW"
     kind "StaticLib"
     language "C"
-    
+    staticruntime "on"          -- ADDED: was missing entirely, caused all LNK4098/LNK2019 errors
+
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
@@ -17,11 +18,10 @@ project "GLFW"
         "src/vulkan.c",
         "src/window.c"
     }
-    
+
     filter "system:windows"
-        buildoptions { "-std=c11", "-lgdi32" }
         systemversion "latest"
-        
+        -- removed "-std=c11" and "-lgdi32": these are GCC flags, MSVC ignores/warns on them (D9002 warnings)
         files
         {
             "src/win32_init.c",
@@ -34,9 +34,8 @@ project "GLFW"
             "src/egl_context.c",
             "src/osmesa_context.c"
         }
-
-        defines 
-        { 
+        defines
+        {
             "_GLFW_WIN32",
             "_CRT_SECURE_NO_WARNINGS"
         }
@@ -46,5 +45,9 @@ project "GLFW"
         symbols "on"
 
     filter "configurations:Release"
+        runtime "Release"
+        optimize "on"
+
+    filter "configurations:Dist"
         runtime "Release"
         optimize "on"

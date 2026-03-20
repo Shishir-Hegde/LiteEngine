@@ -23,7 +23,6 @@ namespace LiteEngine {
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
-
 	}
 
 	Application::~Application()
@@ -33,20 +32,17 @@ namespace LiteEngine {
 	void Application::PushLayer(Layer* layer)
 	{
 		m_LayerStack.PushLayer(layer);
-		layer->OnAttach();
 	}
 
 	void Application::PushOverlay(Layer* layer)
 	{
 		m_LayerStack.PushOverlay(layer);
-		layer->OnAttach();
 	}
 
 	void Application::OnEvent(Event& e)
 	{
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
-
 
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); )
 		{
@@ -60,7 +56,8 @@ namespace LiteEngine {
 	{
 		while (m_Running)
 		{
-			glClearColor(0.25, 0.56, 0.8, 1);
+			// 'f' suffix makes these float literals, fixes C4305 double->GLfloat truncation warnings
+			glClearColor(0.25f, 0.56f, 0.8f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
 
 			for (Layer* layer : m_LayerStack)
@@ -80,9 +77,9 @@ namespace LiteEngine {
 		m_Running = false;
 		return true;
 	}
-	ImGuiContext* Application::GetImGuiContext()        // ADD THIS
+
+	ImGuiContext* Application::GetImGuiContext()
 	{
 		return ImGui::GetCurrentContext();
 	}
-
 }

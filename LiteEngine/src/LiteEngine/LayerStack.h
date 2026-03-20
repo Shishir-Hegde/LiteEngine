@@ -22,7 +22,9 @@ namespace LiteEngine {
 		std::vector<Layer*>::iterator end() { return m_Layers.end(); }
 	private:
 		std::vector<Layer*> m_Layers;
-		unsigned int m_LayerInsertIndex = 0;
+   // store insertion point as an index because vector iterators
+	// can be invalidated by reallocations (emplace_back, reserve, etc.)
+	size_t m_LayerInsertIndex;
 	};
 
 }

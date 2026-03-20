@@ -10,10 +10,10 @@ workspace "LiteEngine"
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 IncludeDir = {}
-IncludeDir["GLFW"] = "LiteEngine/vendor/GLFW/include"
-IncludeDir["Glad"] = "LiteEngine/vendor/Glad/include"
+IncludeDir["GLFW"]  = "LiteEngine/vendor/GLFW/include"
+IncludeDir["Glad"]  = "LiteEngine/vendor/Glad/include"
 IncludeDir["ImGui"] = "LiteEngine/vendor/imgui"
-IncludeDir["glm"] = "LiteEngine/vendor/glm"
+IncludeDir["glm"]   = "LiteEngine/vendor/glm"
 
 include "LiteEngine/vendor/GLFW"
 include "LiteEngine/vendor/Glad"
@@ -22,9 +22,10 @@ include "LiteEngine/vendor/imgui"
 
 project "LiteEngine"
     location "LiteEngine"
-    kind "SharedLib"
+    kind "StaticLib"
     language "C++"
-	staticruntime "off"
+    cppdialect "C++17"
+    staticruntime "on"
     buildoptions { "/utf-8" }
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
@@ -38,7 +39,12 @@ project "LiteEngine"
         "%{prj.name}/src/**.h",
         "%{prj.name}/src/**.cpp",
         "%{prj.name}/vendor/glm/glm/**.hpp",
-		"%{prj.name}/vendor/glm/glm/**.inl"
+        "%{prj.name}/vendor/glm/glm/**.inl"
+    }
+
+    defines
+    {
+        "_CRT_SECURE_NO_WARNINGS"
     }
 
     includedirs
@@ -48,7 +54,7 @@ project "LiteEngine"
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
         "%{IncludeDir.ImGui}",
-		"%{IncludeDir.glm}"
+        "%{IncludeDir.glm}"
     }
 
     links
@@ -60,40 +66,40 @@ project "LiteEngine"
         "dwmapi.lib"
     }
 
+    -- LNK4006: __NULL_IMPORT_DESCRIPTOR harmlessly defined in both opengl32.lib
+    -- and dwmapi.lib; suppress with /ignore:4006
+    linkoptions { "/ignore:4006" }
+
     filter "system:windows"
-        cppdialect "C++17"
         systemversion "latest"
         defines
         {
             "LE_PLATFORM_WINDOWS",
-            "LE_BUILD_DLL",
             "GLFW_INCLUDE_NONE"
-        }
-        postbuildcommands
-        {
-            ("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
         }
 
     filter "configurations:Debug"
         defines "LE_DEBUG"
         runtime "Debug"
-        symbols "On"
+        symbols "on"
 
     filter "configurations:Release"
         defines "LE_RELEASE"
         runtime "Release"
-        optimize "On"
+        optimize "on"
 
     filter "configurations:Dist"
         defines "LE_DIST"
         runtime "Release"
-        optimize "On"
+        optimize "on"
+
 
 project "Sandbox"
     location "Sandbox"
     kind "ConsoleApp"
     language "C++"
-	staticruntime "off"
+    cppdialect "C++17"
+    staticruntime "on"
     buildoptions { "/utf-8" }
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
@@ -109,18 +115,19 @@ project "Sandbox"
     {
         "LiteEngine/vendor/spdlog/include",
         "LiteEngine/src",
-		"LiteEngine/vendor",
+        "LiteEngine/vendor",
         "%{IncludeDir.glm}"
     }
 
     links
     {
-        "LiteEngine",
-		"ImGui"
+        "LiteEngine"
     }
 
+    -- LNK4006 can also surface at Sandbox link stage
+    linkoptions { "/ignore:4006" }
+
     filter "system:windows"
-        cppdialect "C++17"
         systemversion "latest"
         defines
         {
@@ -130,14 +137,14 @@ project "Sandbox"
     filter "configurations:Debug"
         defines "LE_DEBUG"
         runtime "Debug"
-        symbols "On"
+        symbols "on"
 
     filter "configurations:Release"
         defines "LE_RELEASE"
         runtime "Release"
-        optimize "On"
+        optimize "on"
 
     filter "configurations:Dist"
         defines "LE_DIST"
         runtime "Release"
-        optimize "On"
+        optimize "on"

@@ -1,7 +1,8 @@
 project "Glad"
     kind "StaticLib"
     language "C"
-    
+    staticruntime "on"          -- added: must match LiteEngine and Sandbox
+
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
@@ -16,7 +17,7 @@ project "Glad"
     {
         "include"
     }
-    
+
     filter "system:windows"
         systemversion "latest"
 
@@ -25,5 +26,9 @@ project "Glad"
         symbols "on"
 
     filter "configurations:Release"
+        runtime "Release"
+        optimize "on"
+
+    filter "configurations:Dist"
         runtime "Release"
         optimize "on"
