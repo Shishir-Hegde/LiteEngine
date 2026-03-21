@@ -8,7 +8,9 @@
 #include "LiteEngine/Events/ApplicationEvent.h"
 
 #include "LiteEngine/ImGui/ImGuiLayer.h"
+
 struct ImGuiContext;
+
 namespace LiteEngine {
 
 	class LITEENGINE_API Application
@@ -35,6 +37,8 @@ namespace LiteEngine {
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
+
+		unsigned int m_VertexArray, m_VertexBuffer, m_IndexBuffer;
 	private:
 		static Application* s_Instance;
 	};
