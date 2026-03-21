@@ -5,8 +5,8 @@
 #include "LiteEngine/Events/MouseEvent.h"
 #include "LiteEngine/Events/KeyEvent.h"
 
-#include <glad/glad.h>
-
+#include <glad/glad.h> 
+#include "Platform/OpenGL/OpenGLContext.h"
 namespace LiteEngine {
 
 	static bool s_GLFWInitialized = false;
@@ -49,9 +49,8 @@ namespace LiteEngine {
 		}
 
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
-		glfwMakeContextCurrent(m_Window);
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		LE_CORE_ASSERT(status, "Failed to initialize Glad!");
+		m_Context = new OpenGLContext(m_Window);
+		m_Context->Init();
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		LE_CORE_INFO("OpenGL Renderer: {0}", (const char*)glGetString(GL_RENDERER));
 		LE_CORE_INFO("OpenGL Version: {0}", (const char*)glGetString(GL_VERSION));
@@ -157,7 +156,7 @@ namespace LiteEngine {
 	void WindowsWindow::OnUpdate()
 	{
 		glfwPollEvents();
-		glfwSwapBuffers(m_Window);
+		m_Context->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVSync(bool enabled)

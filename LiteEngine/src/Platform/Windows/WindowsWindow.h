@@ -1,6 +1,7 @@
 #pragma once
 
 #include "LiteEngine/Windows.h"
+#include "LiteEngine/Renderer/GraphicsContext.h"
 
 #include <GLFW/glfw3.h>
 
@@ -28,6 +29,7 @@ namespace LiteEngine {
 		virtual void Shutdown();
 	private:
 		GLFWwindow* m_Window;
+		GraphicsContext* m_Context;
 
 		struct WindowData
 		{

@@ -13,3 +13,15 @@
 *.lib binary
 *.dll binary
 *.exe binary
+
+# Ensure Dear ImGui source files keep LF endings to avoid corrupting long embedded literals
+# Treat all files under vendor/imgui as text and normalize to LF on checkout.
+/LiteEngine/vendor/imgui/** text eol=lf
+
+# Also ensure any imgui headers in other locations are normalized to LF
+**/vendor/imgui/** text eol=lf
+
+# Prevent automatic CRLF conversion for generated/compressed font data files specifically
+/LiteEngine/vendor/imgui/imgui_draw.cpp text eol=lf
+/LiteEngine/vendor/imgui/imgui.cpp text eol=lf
+/LiteEngine/vendor/imgui/imgui.h text eol=lf
