@@ -9,6 +9,8 @@
 
 #include "LiteEngine/ImGui/ImGuiLayer.h"
 
+#include "LiteEngine/Renderer/Shader.h"
+
 struct ImGuiContext;
 
 namespace LiteEngine {
@@ -41,6 +43,10 @@ namespace LiteEngine {
 		unsigned int m_VertexArray, m_VertexBuffer, m_IndexBuffer;
 	private:
 		static Application* s_Instance;
+
+	private:
+		std::unique_ptr<Shader> m_Shader;
+
 	};
 
 	// To be defined in CLIENT
