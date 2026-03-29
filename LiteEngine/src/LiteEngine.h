@@ -20,6 +20,7 @@
 
 #include "LiteEngine/Renderer/Buffer.h"
 #include "LiteEngine/Renderer/Shader.h"
+#include "LiteEngine/Renderer/Texture.h"
 #include "LiteEngine/Renderer/VertexArray.h"
 
 #include "LiteEngine/Renderer/OrthographicCamera.h"

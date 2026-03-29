@@ -14,6 +14,7 @@ IncludeDir["GLFW"]  = "LiteEngine/vendor/GLFW/include"
 IncludeDir["Glad"]  = "LiteEngine/vendor/Glad/include"
 IncludeDir["ImGui"] = "LiteEngine/vendor/imgui"
 IncludeDir["glm"]   = "LiteEngine/vendor/glm"
+IncludeDir["stb_image"] = "LiteEngine/vendor/stb_image"
 
 include "LiteEngine/vendor/GLFW"
 include "LiteEngine/vendor/Glad"
@@ -38,6 +39,8 @@ project "LiteEngine"
     {
         "%{prj.name}/src/**.h",
         "%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/stb_image/**.h",
+		"%{prj.name}/vendor/stb_image/**.cpp",
         "%{prj.name}/vendor/glm/glm/**.hpp",
         "%{prj.name}/vendor/glm/glm/**.inl"
     }
@@ -54,7 +57,8 @@ project "LiteEngine"
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
         "%{IncludeDir.ImGui}",
-        "%{IncludeDir.glm}"
+        "%{IncludeDir.glm}",
+		"%{IncludeDir.stb_image}"
     }
 
     links
