@@ -11,6 +11,7 @@
 #include "LiteEngine/Renderer/Shader.h"
 #include "LiteEngine/Renderer/Buffer.h"
 #include "LiteEngine/Renderer/VertexArray.h"
+#include "LiteEngine/Renderer/OrthographicCamera.h"
 
 struct ImGuiContext;
 
@@ -46,6 +47,8 @@ namespace LiteEngine {
 
 		std::shared_ptr<Shader> m_BlueShader;
 		std::shared_ptr<VertexArray> m_SquareVA;
+
+		OrthographicCamera m_Camera;
 	private:
 		static Application* s_Instance;
 	};
