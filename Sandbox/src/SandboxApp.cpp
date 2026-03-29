@@ -169,6 +169,7 @@ public:
 	  m_TextureShader.reset(LiteEngine::Shader::Create(textureShaderVertexSrc, textureShaderFragmentSrc));
 
 	  m_Texture = LiteEngine::Texture2D::Create("assets/textures/Checkerboard.png");
+	  m_ChernoLogoTexture = LiteEngine::Texture2D::Create("assets/textures/ChernoLogo.png");
 
 	  std::dynamic_pointer_cast<LiteEngine::OpenGLShader>(m_TextureShader)->Bind();
 	  std::dynamic_pointer_cast<LiteEngine::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
@@ -212,6 +213,8 @@ public:
 			  glm::vec3 pos(x * 0.11f, y * 0.11f, 0.0f);
 			  glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
 			  LiteEngine::Renderer::Submit(m_FlatColorShader, m_SquareVA, transform);
+			  m_ChernoLogoTexture->Bind();
+			  LiteEngine::Renderer::Submit(m_TextureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 		  }
 	  }
 	  m_Texture->Bind();
@@ -241,7 +244,7 @@ public:
 	  LiteEngine::Ref<LiteEngine::Shader> m_FlatColorShader, m_TextureShader;
 	  LiteEngine::Ref<LiteEngine::VertexArray> m_SquareVA;
 
-	  LiteEngine::Ref<LiteEngine::Texture2D> m_Texture;
+	  LiteEngine::Ref<LiteEngine::Texture2D> m_Texture, m_ChernoLogoTexture;
 
 	  LiteEngine::OrthographicCamera m_Camera;
 	  glm::vec3 m_CameraPosition;
