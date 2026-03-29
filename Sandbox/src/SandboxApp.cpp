@@ -97,7 +97,7 @@ public:
 			}
 		)";
 
-	  m_Shader.reset(LiteEngine::Shader::Create(vertexSrc, fragmentSrc));
+	  m_Shader = LiteEngine::Shader::Create("VertexPosColor", vertexSrc, fragmentSrc);
 
 	  std::string flatColorShaderVertexSrc = R"(
 			#version 330 core
@@ -131,15 +131,15 @@ public:
 			}
 		)";
 
-	  m_FlatColorShader.reset(LiteEngine::Shader::Create(flatColorShaderVertexSrc, flatColorShaderFragmentSrc));
+	  m_FlatColorShader = LiteEngine::Shader::Create("FlatColor", flatColorShaderVertexSrc, flatColorShaderFragmentSrc);
 
-	  m_TextureShader.reset(LiteEngine::Shader::Create("assets/shaders/Texture.glsl"));
+	  auto textureShader = m_ShaderLibrary.Load("assets/shaders/Texture.glsl");
 
 	  m_Texture = LiteEngine::Texture2D::Create("assets/textures/Checkerboard.png");
 	  m_ChernoLogoTexture = LiteEngine::Texture2D::Create("assets/textures/ChernoLogo.png");
 
-	  std::dynamic_pointer_cast<LiteEngine::OpenGLShader>(m_TextureShader)->Bind();
-	  std::dynamic_pointer_cast<LiteEngine::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
+	  std::dynamic_pointer_cast<LiteEngine::OpenGLShader>(textureShader)->Bind();
+	  std::dynamic_pointer_cast<LiteEngine::OpenGLShader>(textureShader)->UploadUniformInt("u_Texture", 0);
   }
 
 
@@ -183,10 +183,12 @@ public:
 			  
 		  }
 	  }
+	  auto textureShader = m_ShaderLibrary.Get("Texture");
+
 	  m_Texture->Bind();
-	  LiteEngine::Renderer::Submit(m_TextureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+	  LiteEngine::Renderer::Submit(textureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 	  m_ChernoLogoTexture->Bind();
-	  LiteEngine::Renderer::Submit(m_TextureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+	  LiteEngine::Renderer::Submit(textureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 	  // Triangle
 	  // LiteEngine::Renderer::Submit(m_Shader, m_VertexArray);
 
@@ -205,10 +207,11 @@ public:
 	  
   }
   private:
+	  LiteEngine::ShaderLibrary m_ShaderLibrary;
 	  LiteEngine::Ref<LiteEngine::Shader> m_Shader;
 	  LiteEngine::Ref<LiteEngine::VertexArray> m_VertexArray;
 
-	  LiteEngine::Ref<LiteEngine::Shader> m_FlatColorShader, m_TextureShader;
+	  LiteEngine::Ref<LiteEngine::Shader> m_FlatColorShader;
 	  LiteEngine::Ref<LiteEngine::VertexArray> m_SquareVA;
 
 	  LiteEngine::Ref<LiteEngine::Texture2D> m_Texture, m_ChernoLogoTexture;
