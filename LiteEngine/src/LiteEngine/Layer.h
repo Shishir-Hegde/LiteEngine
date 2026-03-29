@@ -1,6 +1,7 @@
 #pragma once
 
 #include "LiteEngine/Core.h"
+#include "LiteEngine/Core/Timestep.h"
 #include "LiteEngine/Events/Event.h"
 
 namespace LiteEngine {
@@ -13,7 +14,7 @@ namespace LiteEngine {
 
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
-		virtual void OnUpdate() {}
+		virtual void OnUpdate(Timestep ts) {}
 		virtual void OnImGuiRender() {}
 		virtual void OnEvent(Event& event) {}
 

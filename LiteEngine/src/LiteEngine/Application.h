@@ -7,17 +7,15 @@
 #include "LiteEngine/Events/Event.h"
 #include "LiteEngine/Events/ApplicationEvent.h"
 
+#include "LiteEngine/Core/Timestep.h"
+
 #include "LiteEngine/ImGui/ImGuiLayer.h"
-#include "LiteEngine/Renderer/Shader.h"
-#include "LiteEngine/Renderer/Buffer.h"
-#include "LiteEngine/Renderer/VertexArray.h"
-#include "LiteEngine/Renderer/OrthographicCamera.h"
 
 struct ImGuiContext;
 
 namespace LiteEngine {
 
-	class LITEENGINE_API Application
+	class Application
 	{
 	public:
 		Application();
@@ -37,18 +35,14 @@ namespace LiteEngine {
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
 
+	private:
+
 		std::unique_ptr<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
 
-		std::shared_ptr<Shader> m_Shader;
-		std::shared_ptr<VertexArray> m_VertexArray;
-
-		std::shared_ptr<Shader> m_BlueShader;
-		std::shared_ptr<VertexArray> m_SquareVA;
-
-		OrthographicCamera m_Camera;
+		float m_LastFrameTime = 0.0f;
 	private:
 		static Application* s_Instance;
 	};
