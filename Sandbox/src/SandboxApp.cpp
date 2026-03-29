@@ -213,13 +213,13 @@ public:
 			  glm::vec3 pos(x * 0.11f, y * 0.11f, 0.0f);
 			  glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
 			  LiteEngine::Renderer::Submit(m_FlatColorShader, m_SquareVA, transform);
-			  m_ChernoLogoTexture->Bind();
-			  LiteEngine::Renderer::Submit(m_TextureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+			  
 		  }
 	  }
 	  m_Texture->Bind();
 	  LiteEngine::Renderer::Submit(m_TextureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
-
+	  m_ChernoLogoTexture->Bind();
+	  LiteEngine::Renderer::Submit(m_TextureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 	  // Triangle
 	  // LiteEngine::Renderer::Submit(m_Shader, m_VertexArray);
 
